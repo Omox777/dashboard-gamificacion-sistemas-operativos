@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Misión SO · Gamificación de Sistemas Operativos</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+<style>
+:root{
+  --bg:#070b1c; --panel:rgba(255,255,255,.055); --panel2:rgba(255,255,255,.09);
+  --line:rgba(255,255,255,.13); --tx:#e9edff; --dim:#9aa3c7;
+  --cyan:#22d3ee; --mag:#e879f9; --lime:#a3e635; --amber:#fbbf24; --red:#f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif;
+  color:var(--tx);min-height:100vh;line-height:1.55;
+  background:
+    radial-gradient(1100px 600px at 85% -5%,rgba(34,211,238,.16),transparent 60%),
+    radial-gradient(900px 550px at -10% 35%,rgba(232,121,249,.13),transparent 60%),
+    radial-gradient(800px 500px at 110% 80%,rgba(163,230,53,.08),transparent 60%),
+    linear-gradient(180deg,#070b1c,#0b1233 55%,#070b1c);
+  background-attachment:fixed;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(12px,3vw,24px) 40px}
+
+/* ===== Header ===== */
+header{position:sticky;top:0;z-index:50;background:rgba(7,11,28,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:1080px;margin:0 auto;padding:10px clamp(12px,3vw,24px);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,rgba(34,211,238,.25),rgba(232,121,249,.25));border:1px solid var(--line)}
+.logo b{font-size:16px;letter-spacing:.3px;display:block;line-height:1.2}
+.logo small{color:var(--dim);font-size:11px;display:block}
+.lvlpill{background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.4);color:var(--cyan);border-radius:99px;padding:5px 12px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.xpwrap{flex:1 1 220px;min-width:190px}
+.xptop{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--dim);margin-bottom:4px}
+.bar{height:12px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar.slim{height:8px}
+.bar>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--cyan),var(--mag));transition:width .5s;width:0}
+.xpwrap small{display:block;margin-top:4px;color:var(--dim);font-size:11.5px}
+.hbtns{display:flex;gap:8px;margin-left:auto}
+.ibtn{background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.ibtn:hover{border-color:var(--cyan)}
+.ibtn.wide{font-size:12.5px;font-weight:600}
+
+/* ===== Hero ===== */
+.hero{display:flex;gap:clamp(16px,3vw,34px);align-items:center;flex-wrap:wrap;margin-top:22px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(14px,2.5vw,22px)}
+.ring{--p:0;width:136px;height:136px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;position:relative;
+  background:conic-gradient(var(--cyan) calc(var(--p)*1%),rgba(255,255,255,.09) 0)}
+.ring::before{content:'';position:absolute;inset:12px;border-radius:50%;background:#0b1233;border:1px solid var(--line)}
+.rcenter{position:relative;z-index:1;text-align:center;line-height:1.15}
+.rcenter b{font-size:26px;display:block}
+.rcenter span{font-size:11px;color:var(--dim)}
+.hinfo{flex:1 1 300px}
+.kicker{color:var(--cyan);font-size:11.5px;font-weight:800;letter-spacing:2.5px}
+.hinfo h1{font-size:clamp(1.3rem,4.2vw,1.9rem);margin:4px 0 6px;line-height:1.2}
+.sub{color:var(--dim);font-size:14px;max-width:60ch}
+.pname{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--dim)}
+.pname input{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:7px 12px;font-size:14px;width:170px;outline:none}
+.pname input:focus{border-color:var(--cyan)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.mchip{background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.mchip.ok{border-color:rgba(163,230,53,.5);color:var(--lime)}
+.next{margin-top:12px;font-size:14px;color:var(--dim);background:rgba(34,211,238,.07);border:1px dashed rgba(34,211,238,.35);border-radius:12px;padding:9px 14px}
+.next b{color:var(--tx)}
+
+/* ===== Botones ===== */
+.btn{background:linear-gradient(90deg,var(--cyan),#60a5fa);color:#04101f;border:none;border-radius:12px;padding:10px 18px;font-size:14px;font-weight:800;cursor:pointer;transition:.15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.btn.big{padding:13px 22px;font-size:15px;width:100%}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--tx);font-weight:600}
+.btn.ghost:hover{border-color:var(--cyan)}
+.btn.warn{background:linear-gradient(90deg,#f59e0b,#f87171);color:#1c0a02}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* ===== Secciones / actividades ===== */
+.sec-t{font-size:clamp(1.15rem,3vw,1.45rem);margin:30px 0 14px}
+.acts{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.act{position:relative;border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:14px 16px;display:grid;grid-template-columns:56px 1fr;gap:14px}
+.act .aicon{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:27px;background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(232,121,249,.18));border:1px solid var(--line)}
+.act.done{border-color:rgba(163,230,53,.4)}
+.act .arow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.atag{background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.4);color:var(--mag);border-radius:99px;padding:2px 10px;font-size:11px;font-weight:800;letter-spacing:1px}
+.act h3{font-size:15.5px}
+.act p.adesc{color:var(--dim);font-size:13px;margin:4px 0}
+.ameta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.axp{color:var(--amber);font-size:12px;font-weight:700}
+.star{color:var(--amber);letter-spacing:2px}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.bcard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px;text-align:center;opacity:.45;filter:grayscale(1)}
+.bcard.got{opacity:1;filter:none;border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.07)}
+.bic{font-size:30px;margin-bottom:6px}
+.bcard b{font-size:13px;display:block}
+.bcard p{font-size:11.5px;color:var(--dim);margin-top:4px}
+footer{margin-top:34px;color:var(--dim);font-size:12px;text-align:center;line-height:1.7}
+
+/* ===== Modal ===== */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(3,6,18,.72);backdrop-filter:blur(6px)}
+.modal.on{display:flex}
+.sheet{width:100%;max-width:920px;max-height:92vh;overflow:auto;border-radius:18px;background:#0c1230;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.55);padding:clamp(14px,2.5vw,24px)}
+.modal.on .sheet{animation:pop .22s}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.zhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.zhead>div{flex:1 1 200px}
+.zic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:24px;background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(232,121,249,.2));border:1px solid var(--line);flex:0 0 auto}
+.xbtn{background:var(--panel);border:1px solid var(--line);color:var(--tx);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:15px;flex:0 0 auto}
+.xbtn:hover{border-color:var(--red);color:var(--red)}
+.zintro{color:var(--dim);font-size:13.5px;margin:6px 0 12px}
+.zprog{display:flex;align-items:center;gap:12px;margin:10px 0;font-size:12.5px;color:var(--dim);flex-wrap:wrap}
+.zprog .bar{flex:1 1 auto;min-width:80px}
+.hint{color:var(--dim);font-size:13px;margin:6px 0}
+.hint.okmsg{color:var(--lime)}
+.fbk{margin-top:14px;border-radius:12px;padding:12px 14px;font-size:13.5px}
+.fbk.good{background:rgba(163,230,53,.12);border:1px solid rgba(163,230,53,.4)}
+.fbk.oops{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4)}
+.fbk p{margin:6px 0 10px;color:var(--dim)}
+.mfoot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+.endbox{text-align:center;padding:10px 4px}
+.endstars{font-size:44px;color:var(--amber);letter-spacing:6px;margin:6px 0}
+.endgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:16px 0}
+.endcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}
+.endcard b{font-size:19px;display:block}
+.endcard span{font-size:11.5px;color:var(--dim)}
+.endbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.award{text-align:center;padding:14px 6px}
+.aw-ic{font-size:56px;margin-bottom:8px}
+.award h2{font-size:clamp(1.25rem,4vw,1.6rem);margin-bottom:8px}
+.award p{color:var(--dim);font-size:14px;max-width:56ch;margin:0 auto 14px}
+.wlist{text-align:left;display:grid;gap:7px;margin:6px auto 18px;max-width:48ch;font-size:13.5px;color:#cdd6f5;list-style:none}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* ===== Adivinanzas ===== */
+.riddle-card{background:linear-gradient(145deg,rgba(34,211,238,.1),rgba(232,121,249,.1));border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14.5px;line-height:1.7}
+.riddle-card b.qm{color:var(--cyan)}
+.hintbox{margin-top:10px;display:grid;gap:8px}
+.hintline{background:rgba(251,191,36,.08);border:1px dashed rgba(251,191,36,.45);border-radius:10px;padding:8px 12px;font-size:13px;color:#fde9b8}
+.ansrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.ansrow input{flex:1 1 200px;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:12px;color:var(--tx);padding:11px 14px;font-size:15px;outline:none}
+.ansrow input:focus{border-color:var(--cyan)}
+.rlist{display:grid;gap:10px;margin-top:8px}
+.rcard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.rcard:hover{border-color:var(--cyan)}
+.rcard .rn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;background:rgba(34,211,238,.15);border:1px solid var(--line);flex:0 0 auto}
+.rcard.solved{border-color:rgba(163,230,53,.45)}
+.rcard b{font-size:13.5px;display:block}
+.rcard small{color:var(--dim);font-size:12px}
+
+/* ===== Sopa de letras ===== */
+.sopawords{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.wchip{border:1px solid var(--line);border-radius:99px;padding:3px 12px;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--dim)}
+.wchip.found{border-color:rgba(163,230,53,.55);color:var(--lime);text-decoration:line-through}
+.sgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;max-width:520px;margin:0 auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.sc{aspect-ratio:1;display:grid;place-items:center;border-radius:6px;background:rgba(255,255,255,.07);border:1px solid var(--line);font-weight:800;font-size:clamp(10px,2.6vw,16px);cursor:pointer}
+.sc.sel{background:rgba(34,211,238,.35);border-color:var(--cyan)}
+.sc.f0{background:rgba(34,211,238,.4);border-color:var(--cyan);color:#04101f}
+.sc.f1{background:rgba(232,121,249,.4);border-color:var(--mag);color:#1c0420}
+.sc.f2{background:rgba(163,230,53,.4);border-color:var(--lime);color:#101c02}
+.sc.f3{background:rgba(251,191,36,.4);border-color:var(--amber);color:#1c1202}
+.sc.f4{background:rgba(96,165,250,.4);border-color:#60a5fa;color:#04101f}
+.sc.f5{background:rgba(248,113,113,.4);border-color:var(--red);color:#1c0404}
+
+/* ===== Arrastrar / clasificar / diagrama ===== */
+.pool{display:flex;gap:10px;flex-wrap:wrap;min-height:56px;padding:12px;border:1px dashed var(--line);border-radius:14px;margin:10px 0 16px}
+.chipd{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13.5px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;max-width:100%}
+.chipd.dragging{opacity:.35}
+.chipd.sel{border-color:var(--cyan);box-shadow:0 0 10px rgba(34,211,238,.35)}
+.chipd.locked{cursor:default;opacity:.9}
+.ghost{position:fixed;z-index:400;pointer-events:none;opacity:.95;box-shadow:0 12px 30px rgba(0,0,0,.5);transform:rotate(2deg);background:#141b3d}
+.trays{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tray{border:2px dashed var(--line);border-radius:14px;padding:12px;min-height:130px;display:flex;flex-direction:column;gap:8px}
+.tray.over{border-color:var(--cyan);background:rgba(34,211,238,.06)}
+.tray.bad{border-color:var(--red)}
+.tray h4{font-size:14px;text-align:center}
+.tray small{color:var(--dim);font-size:11.5px;text-align:center;display:block;margin-top:-4px}
+.tray .chipd{font-size:12.5px;padding:8px 10px}
+/* Diagrama */
+.stack{display:flex;flex-direction:column-reverse;gap:8px;max-width:420px;margin:14px auto}
+.layer{border:2px dashed var(--line);border-radius:12px;min-height:52px;display:grid;place-items:center;font-weight:800;letter-spacing:.5px;font-size:13.5px;padding:8px 10px;text-align:center}
+.layer.over{border-color:var(--cyan);background:rgba(34,211,238,.06)}
+.layer.bad{border-color:var(--red)}
+.layer.filled{border-style:solid;background:linear-gradient(90deg,rgba(34,211,238,.18),rgba(232,121,249,.18));border-color:rgba(34,211,238,.5)}
+.layer.l0.filled{background:linear-gradient(90deg,rgba(163,230,53,.16),rgba(163,230,53,.28))}
+.lnum{color:var(--dim);font-size:10px;font-weight:700;margin-right:6px}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px;margin:10px auto 0}
+.sides .layer{min-height:44px;font-size:12px}
+.diagwrap{border:1px solid var(--line);border-radius:16px;padding:clamp(10px,2vw,18px);background:rgba(255,255,255,.03)}
+
+/* ===== Crucigrama ===== */
+.cwgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;max-width:480px;margin:10px auto}
+.cwc{position:relative}
+.cwc input{width:100%;aspect-ratio:1;border:1px solid var(--line);border-radius:5px;background:rgba(255,255,255,.08);color:var(--tx);font-weight:800;font-size:clamp(9px,2.4vw,15px);text-align:center;text-transform:uppercase;padding:0;outline:none}
+.cwc input:focus{border-color:var(--cyan);background:rgba(34,211,238,.12)}
+.cwc input.hl{border-color:var(--amber);background:rgba(251,191,36,.14)}
+.cwc input.ok{border-color:rgba(163,230,53,.6);background:rgba(163,230,53,.16);color:var(--lime)}
+.cwc input.bad{border-color:var(--red);background:rgba(248,113,113,.16)}
+.cwc .blk{width:100%;aspect-ratio:1;background:transparent;border:none}
+.cwc .cwnum{position:absolute;top:0;left:2px;font-size:8px;color:var(--amber);font-weight:800;z-index:1;pointer-events:none}
+.clues{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.clues h4{font-size:13.5px;color:var(--cyan);margin-bottom:6px}
+.clues ol{list-style:none;display:grid;gap:7px}
+.clues li{font-size:12.5px;color:#cdd6f5;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;gap:8px}
+.clues li:hover{border-color:var(--cyan)}
+.clues li.done{opacity:.6;border-color:rgba(163,230,53,.45)}
+.clues li.active{border-color:var(--amber)}
+.clues li b{color:var(--amber)}
+
+/* ===== Diploma ===== */
+.cert{margin:14px auto;max-width:560px}
+.cert-in{border:2px solid var(--amber);border-radius:14px;background:linear-gradient(160deg,#fff9ea,#ffedb9);color:#3a2c07;padding:clamp(18px,4vw,34px);text-align:center}
+.ck{font-size:11px;font-weight:800;letter-spacing:3px;color:#8a6d1a}
+.ct{font-size:clamp(1.2rem,4vw,1.6rem);margin:8px 0;color:#2c2005}
+.cd{font-size:12px;color:#6b5410;margin-top:8px}
+.cn{font-size:clamp(1.35rem,5vw,1.9rem);font-weight:800;border-bottom:2px dashed #b8860b;display:inline-block;padding:2px 22px 6px;margin:6px 0 12px;color:#1e1402}
+.cb{font-size:13.5px;line-height:1.6}
+.cstats{margin-top:12px;font-size:13px;font-weight:700}
+.cdate{margin-top:10px;font-size:11.5px;color:#6b5410}
+.no-print{display:inline-flex}
+
+/* Material */
+.matx h3{margin:16px 0 6px;font-size:15.5px;color:var(--cyan)}
+.matx p,.matx li{font-size:13.5px;color:#cdd6f5}
+.matx ul,.matx ol{margin:6px 0 6px 20px;display:grid;gap:4px}
+.mtable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.mtable th,.mtable td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.mtable th{background:rgba(34,211,238,.1);color:var(--cyan)}
+.twrap{overflow-x:auto}
+
+#toasts{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;align-items:center;width:min(92vw,430px);pointer-events:none}
+.toast{background:#0e1636;border:1px solid var(--cyan);padding:10px 16px;border-radius:12px;box-shadow:0 8px 30px rgba(34,211,238,.25);animation:tin .3s;font-weight:600;font-size:13.5px;text-align:center;max-width:100%}
+.toast.out{opacity:0;transform:translateY(8px);transition:.3s}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:300}
+
+@media (max-width:640px){
+  .hwrap{gap:10px}
+  .xpwrap{order:3;flex:1 1 100%}
+  .hbtns{margin-left:auto}
+  .hero{flex-direction:column;align-items:flex-start}
+  .trays{grid-template-columns:1fr}
+  .clues{grid-template-columns:1fr}
+  .endbtns{flex-direction:column}
+  .mfoot{justify-content:center}
+  .sides{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+@media print{
+  body{background:#fff}
+  body>*{display:none!important}
+  #modal{display:block!important;position:static;padding:0;background:none;backdrop-filter:none}
+  #modal .sheet{max-width:none;max-height:none;box-shadow:none;border:none;background:none;overflow:visible}
+  #modal .sheet>*{display:none!important}
+  #modal .sheet .cert{display:block!important}
+  .no-print{display:none!important}
+  .cert-in{border-color:#b8860b;background:#fff;color:#222}
+  .ct,.cn{color:#000}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="logo"><span class="ic">💻</span><div><b>Misión Sistemas Operativos</b><small>Gamificación · Retos con el material de clase</small></div></div>
+    <div class="xpwrap">
+      <div class="xptop"><span class="lvlpill" id="lvlBadge">🐣 Novato de los SO</span><span id="xpText">0 XP</span></div>
+      <div class="bar"><i id="xpFill"></i></div>
+      <small id="xpNext"></small>
+    </div>
+    <div class="hbtns">
+      <button class="ibtn" id="btnSound" data-act="sound" title="Activar o silenciar sonido">🔊</button>
+      <button class="ibtn wide" data-act="material" title="Resumen del material">📚 Material</button>
+      <button class="ibtn" data-act="reset" title="Reiniciar progreso">↺</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero panel">
+    <div class="ring" id="ring"><div class="rcenter"><b id="ringPct">0%</b><span>explorado</span></div></div>
+    <div class="hinfo">
+      <p class="kicker">MISIÓN</p>
+      <h1>Sistemas Operativos</h1>
+      <p class="sub">Supera los <b>5 retos</b> construidos con el material de clase: adivinanzas, sopa de letras, clasificación, diagrama y crucigrama. Conviértete en <b>Maestro de los SO</b>.</p>
+      <label class="pname">🎮 Piloto: <input id="nameInp" maxlength="24" placeholder="escribe tu nombre" autocomplete="off"></label>
+      <div class="chips" id="statChips"></div>
+      <div class="next" id="nextGoal"></div>
+      <div class="chips" style="margin-top:12px"><button class="btn ghost" id="btnDiploma" data-act="cert" hidden>🎓 Ver diploma</button></div>
+    </div>
+  </section>
+
+  <section id="actividades"></section>
+  <section id="medallero"></section>
+
+  <footer>💻 Misión Sistemas Operativos · Tablero de gamificación educativa<br>Basado en el material de clase · El progreso se guarda automáticamente en este navegador.</footer>
+</div>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<div id="toasts"></div>
+<canvas id="confetti"></canvas>
+<script>
+'use strict';
+/* ================= DATOS: PUZZLES GENERADOS Y VALIDADOS ================= */
+const CRX={rows:12,cols:12,layout:[
+ {w:'MULTITAREA',r:0,c:1,d:'h'},{w:'UNIX',r:0,c:2,d:'v'},{w:'AIX',r:0,c:10,d:'v'},
+ {w:'WINDOWS',r:2,c:1,d:'h'},{w:'DOS',r:2,c:4,d:'v'},{w:'SOLARIS',r:4,c:4,d:'h'},
+ {w:'LINUX',r:4,c:6,d:'v'},{w:'SERVIDOR',r:4,c:10,d:'v'}],
+ num:{'0,1':1,'0,2':2,'0,10':3,'2,1':4,'2,4':5,'4,4':6,'4,6':7,'4,10':8}};
+const CLUES={
+ MULTITAREA:{n:1,d:'h',clue:'Permite que varios programas se ejecuten al mismo tiempo.'},
+ UNIX:{n:2,d:'v',clue:'SO altamente estable y seguro, de estructura modular y archivos jerárquicos.'},
+ AIX:{n:3,d:'v',clue:'SO de IBM, optimizado para sus Power Systems.'},
+ WINDOWS:{n:4,d:'h',clue:'SO cuya versión Server gestiona usuarios con Active Directory y virtualiza con Hyper-V.'},
+ DOS:{n:5,d:'v',clue:'SO de comandos escritos: contiene órdenes como copiar y pegar.'},
+ SOLARIS:{n:6,d:'h',clue:'SO con sistema de archivos ZFS y la herramienta de diagnóstico DTrace.'},
+ LINUX:{n:7,d:'v',clue:'SO de código abierto con versiones empresariales como Red Hat y CentOS.'},
+ SERVIDOR:{n:8,d:'v',clue:'Atiende peticiones en la red; puede ir de una máquina de bajos recursos a una sumamente potente.'}};
+const SOPA={grid:[
+ ['D','X','Z','T','C','U','N','B','A','M','C','G'],
+ ['W','I','N','D','O','W','S','H','U','S','V','A'],
+ ['S','T','G','Y','W','Y','T','L','S','N','H','L'],
+ ['O','O','U','I','A','F','T','E','Y','N','K','I'],
+ ['L','I','E','G','K','I','R','D','C','M','D','N'],
+ ['A','L','L','V','T','V','I','B','Z','O','T','U'],
+ ['R','D','M','A','I','C','T','J','W','V','L','X'],
+ ['I','U','R','D','G','D','O','S','Y','C','B','X'],
+ ['S','E','O','H','J','C','H','D','M','I','O','W'],
+ ['A','R','L','F','L','L','G','U','N','I','X','X'],
+ ['A','I','X','I','Y','X','W','C','V','W','F','T'],
+ ['Z','H','F','O','M','I','W','Y','T','H','X','K']],
+ words:['MULTITAREA','UNIX','WINDOWS','SOLARIS','LINUX','AIX','DOS','SERVIDOR']};
+
+/* ================= DATOS: ADIVINANZAS ================= */
+const RIDDLES=[
+ {id:'r1',ans:['SISTEMA OPERATIVO','SISTEMAOPERATIVO','SO','EL SISTEMA OPERATIVO'],
+  text:'Dirijo las acciones que se llevan a cabo dentro del dispositivo y hago ejecutar las órdenes dadas por el usuario. Somos el componente de software que permite interactuar con los dispositivos y administrar cualquier función, tal cual como el cerebro humano.',
+  hints:['No soy una pieza física: soy software.','Windows, Linux y macOS son ejemplos de mí.','Sin mí, las aplicaciones no tendrían plataforma donde funcionar.'],
+  why:'El sistema operativo dirige las acciones del dispositivo y ejecuta las órdenes del usuario, como el cerebro humano.'},
+ {id:'r2',ans:['MULTIUSUARIO'],
+  text:'Permito que dos o más usuarios utilicen sus programas al mismo tiempo; los sistemas que me tienen pueden llegar a atender a centenares o millares de usuarios a la vez.',
+  hints:['Mi nombre empieza con “multi”.','En un servidor conmigo, muchas personas trabajan a la vez.','Yo hablo de personas usando el equipo; no de programas.'],
+  why:'Multiusuario permite que dos o más usuarios utilicen sus programas al mismo tiempo.'},
+ {id:'r3',ans:['MULTITAREA'],
+  text:'Permito que varios programas se ejecuten al mismo tiempo en el mismo equipo.',
+  hints:['Mi nombre también empieza con “multi”.','Puedes escribir un documento mientras escuchas música: gracias a mí.','Yo hablo de programas; mi primo multiusuario habla de usuarios.'],
+  why:'Multitarea permite que varios programas se ejecuten al mismo tiempo.'},
+ {id:'r4',ans:['TIEMPO REAL','TIEMPOREAL','SISTEMA DE TIEMPO REAL','SISTEMAS DE TIEMPO REAL'],
+  text:'Respondo a las entradas inmediatamente, sin demoras. Los sistemas operativos como DOS y UNIX no funcionan conmigo.',
+  hints:['Me miden por el reloj: cero espera.','Mi nombre tiene dos palabras.','Los sistemas de misión crítica me necesitan para reaccionar al instante.'],
+  why:'Tiempo real: responde a las entradas inmediatamente. DOS y UNIX no funcionan en tiempo real.'},
+ {id:'r5',ans:['PROCESADOR DE COMANDOS','PROCESADORDECOMANDOS','INTERPRETE DE COMANDOS','INTERPRETEDECOMANDOS','INTERPRETE DE LA LINEA DE COMANDOS','INTERPRETEDELALINEA DE COMANDOS'],
+  text:'Acepto y ejecuto los comandos que el usuario escribe. En el DOS, órdenes como copiar y pegar pasan por mí. También me llaman intérprete de la línea de comandos.',
+  hints:['Vivo dentro del sistema operativo.','Trabajo con texto: leo lo que escribes y lo convierto en acciones.','La primera palabra de mi nombre es “procesador”.'],
+  why:'Los comandos son aceptados y ejecutados por una parte del SO llamada procesador de comandos o intérprete de la línea de comandos.'},
+ {id:'r6',ans:['MAC OS X SERVER','MACOSXSERVER','MAC OS SERVER','MACOSSERVER'],
+  text:'Soy un sistema operativo para servidores, basado en Unix. Incluyo herramientas administrativas gráficas para la gestión de usuarios, redes y servicios como LDAP, servidor de correo y Samba.',
+  hints:['Nací en la manzana 🍎.','Mi versión de escritorio es idéntica a mí, pero yo añado herramientas de servidor.','Mi nombre incluye “OS X”.'],
+  why:'Mac OS X Server es el SO para servidores de Apple Inc., basado en Unix, con gestión de usuarios, redes y servicios.'}];
+
+/* ================= DATOS: CLASIFICAR (drag & drop) ================= */
+const TRAYS=[
+ {id:'t_unix',icon:'🔷',name:'UNIX',sub:'Estable, seguro y modular'},
+ {id:'t_sol', icon:'☀️',name:'SOLARIS',sub:'ZFS y DTrace'},
+ {id:'t_lnx', icon:'🐧',name:'LINUX',sub:'Código abierto'}];
+const DROPCARDS=[
+ {id:'c1', tray:'t_unix', text:'Estabilidad y seguridad para entornos críticos'},
+ {id:'c2', tray:'t_unix', text:'Estructura modular: se modifica sin afectar al resto'},
+ {id:'c3', tray:'t_unix', text:'Sistema de archivos jerárquico'},
+ {id:'c4', tray:'t_sol', text:'Zonas y contenedores aislados en un solo sistema'},
+ {id:'c5', tray:'t_sol', text:'Sistema de archivos ZFS con instantáneas y clonaciones'},
+ {id:'c6', tray:'t_sol', text:'DTrace: detección y resolución de problemas'},
+ {id:'c7', tray:'t_lnx', text:'Código abierto, modificable según las necesidades'},
+ {id:'c8', tray:'t_lnx', text:'Gestión de paquetes para instalar y actualizar software'},
+ {id:'c9', tray:'t_lnx', text:'Distribuciones empresariales: Red Hat, CentOS y SUSE'}];
+
+/* ================= DATOS: DIAGRAMA (etiquetar) ================= */
+const DIAGRAM_SLOTS=[
+ {id:'s_hw', type:'layer', label:'HARDWARE',              accept:'HARDWARE',              tip:'La parte física sobre la que todo funciona'},
+ {id:'s_so', type:'layer', label:'SISTEMA OPERATIVO',     accept:'SISTEMA OPERATIVO',     tip:'Plataforma que dirige el equipo'},
+ {id:'s_ap', type:'layer', label:'APLICACIONES',          accept:'APLICACIONES',          tip:'Programas que funcionan encima del SO'},
+ {id:'s_us', type:'layer', label:'USUARIO',               accept:'USUARIO',               tip:'Quien da las órdenes'},
+ {id:'s_ic', type:'side',  label:'INTÉRPRETE DE COMANDOS',accept:'INTERPRETE DE COMANDOS',tip:'Acepta y ejecuta comandos escritos'},
+ {id:'s_ig', type:'side',  label:'INTERFAZ GRÁFICA',      accept:'INTERFAZ GRAFICA',     tip:'Comandos señalando y pinchando objetos'}];
+const DIAGRAM_CHIPS=[
+ 'USUARIO','APLICACIONES','SISTEMA OPERATIVO','HARDWARE','INTERPRETE DE COMANDOS','INTERFAZ GRAFICA'];
+
+/* ================= CONFIGURACIÓN DE LA PARTIDA ================= */
+const LEVELS=[
+ {xp:0,  name:'Novato de los SO',     icon:'🐣'},
+ {xp:150,name:'Explorador de Sistemas',icon:'🔎'},
+ {xp:300,name:'Técnico en SO',       icon:'🛠️'},
+ {xp:450,name:'Experto en SO',       icon:'🧠'},
+ {xp:610,name:'Maestro de los SO',   icon:'👑'}];
+const XP_RIDDLE=[30,20,10], XP_WORD=15, XP_CARD=10, XP_LABEL=10, XP_CRU=20, LS='misionSOv1';
+
+const ACTS=[
+ {id:'ad', icon:'🕵️',title:'Adivinanzas: ¿Qué soy?',   tag:'Reto 1', type:'riddles',
+  desc:'6 adivinanzas con pistas progresivas sobre el sistema operativo y sus clasificaciones.',xpMax:180},
+ {id:'sop',icon:'🔤',title:'Sopa de letras',            tag:'Reto 2', type:'sopa',
+  desc:'Encuentra los 8 términos ocultos: Windows, UNIX, Solaris, Linux, AIX, DOS y más.',xpMax:120},
+ {id:'drag',icon:'🗂️',title:'Clasificar: arrastra a la bandeja',tag:'Reto 3',type:'drag',
+  desc:'Arrastra cada característica a la bandeja del SO de empresas que le corresponde.',xpMax:90},
+ {id:'diag',icon:'🏗️',title:'Etiqueta el diagrama',     tag:'Reto 4', type:'diag',
+  desc:'Coloca las 6 etiquetas en el diagrama de cómo funciona un sistema informático.',xpMax:60},
+ {id:'cru',icon:'🔠',title:'Crucigrama del SO',         tag:'Reto 5', type:'cru',
+  desc:'8 palabras cruzadas con pistas tomadas del material: características y ejemplos de uso.',xpMax:160}];
+
+/* ================= ESTADO Y DERIVADOS ================= */
+const BADGES=[
+ {id:'detect',icon:'🕵️',name:'Detective de Sistemas', desc:'Resolviste tu primera adivinanza.',        cond:()=>adSolved()>=1},
+ {id:'eagle', icon:'🦅',name:'Ojo de Águila',          desc:'Encontraste los 8 términos de la sopa.',  cond:()=>sopFound()===SOPA.words.length},
+ {id:'org',   icon:'🗂️',name:'Organizador Experto',   desc:'Clasificaste las 9 características.',     cond:()=>dragPlaced()===DROPCARDS.length},
+ {id:'arch',  icon:'🏗️',name:'Arquitecto del SO',     desc:'Etiquetaste el diagrama completo.',       cond:()=>diagFilled()===DIAGRAM_SLOTS.length},
+ {id:'cross', icon:'🔠',name:'Maestro del Crucigrama',desc:'Completaste las 8 palabras cruzadas.',    cond:()=>cruDone()===CRX.layout.length},
+ {id:'riddle',icon:'🧠',name:'Adivino Total',          desc:'Resolviste las 6 adivinanzas.',           cond:()=>adSolved()===RIDDLES.length},
+ {id:'star',  icon:'⭐',name:'Mente Perfecta',         desc:'Terminaste una actividad sin ningún fallo.',cond:()=>ACTS.some(a=>(S.stars[a.id]||0)>=3)},
+ {id:'master',icon:'👑',name:'Maestro de los SO',      desc:'Completaste el 100% del tablero.',        cond:()=>pct()>=100}];
+const TOTAL_UNITS=RIDDLES.length+SOPA.words.length+DROPCARDS.length+DIAGRAM_SLOTS.length+CRX.layout.length;
+
+function defaultS(){return{name:'',xp:0,ad:{st:{},fails:0},sop:{found:[],fails:0},drag:{pl:{},fails:0},diag:{fl:{},fails:0},cru:{done:[],cells:{},fails:0},stars:{},badges:{},sound:true,seen:0,certShown:0};}
+let S=(()=>{try{const r=localStorage.getItem(LS);if(r)return Object.assign(defaultS(),JSON.parse(r));}catch(e){}return defaultS();})();
+function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
+const norm=s=>String(s).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z0-9]/g,'');
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stars3=f=>f===0?3:f<=3?2:1;
+const starsHtml=n=>'<span class="star">'+'★'.repeat(n)+'☆'.repeat(3-n)+'</span>';
+
+const adSolved=()=>RIDDLES.filter(r=>S.ad.st[r.id]&&S.ad.st[r.id].st!=='open').length;
+const sopFound=()=>S.sop.found.length;
+const dragPlaced=()=>Object.keys(S.drag.pl).length;
+const diagFilled=()=>Object.keys(S.diag.fl).length;
+const cruDone=()=>S.cru.done.length;
+const actDone=a=>a.id==='ad'?adSolved()===RIDDLES.length:a.id==='sop'?sopFound()===SOPA.words.length:a.id==='drag'?dragPlaced()===DROPCARDS.length:a.id==='diag'?diagFilled()===DIAGRAM_SLOTS.length:cruDone()===CRX.layout.length;
+const actProg=a=>a.id==='ad'?adSolved():a.id==='sop'?sopFound():a.id==='drag'?dragPlaced():a.id==='diag'?diagFilled():cruDone();
+const actTotal=a=>a.id==='ad'?RIDDLES.length:a.id==='sop'?SOPA.words.length:a.id==='drag'?DROPCARDS.length:a.id==='diag'?DIAGRAM_SLOTS.length:CRX.layout.length;
+const doneCount=()=>ACTS.filter(actDone).length;
+const pct=()=>Math.round((adSolved()+sopFound()+dragPlaced()+diagFilled()+cruDone())/TOTAL_UNITS*100);
+const levelIdx=xp=>{let i=0;for(let k=0;k<LEVELS.length;k++)if(xp>=LEVELS[k].xp)i=k;return i;};
+
+/* ================= XP, MEDALLAS, TOASTS ================= */
+function addXP(n,reason){
+  const before=levelIdx(S.xp);
+  S.xp+=n;save();
+  toast('⚡ +'+n+' XP · '+reason);
+  const after=levelIdx(S.xp);
+  renderHeader();renderHero();
+  if(after>before){
+    const L=LEVELS[after];
+    sfx('level');burst(160);
+    if($('#modal').classList.contains('on'))toast('🏅 ¡Subiste de nivel: <b>'+L.icon+' '+esc(L.name)+'</b>!');
+    else{openModal(awardHTML('🏅','¡Nivel desbloqueado!','Ahora eres <b>'+L.icon+' '+esc(L.name)+'</b>','Continuar'));sfx('award');}
+  }
+  checkBadges();
+}
+function checkBadges(){
+  let got=false;
+  BADGES.forEach(b=>{if(!S.badges[b.id]&&b.cond()){S.badges[b.id]=1;got=true;toast('🎖️ Medalla conseguida: <b>'+esc(b.name)+'</b>');}});
+  if(got){save();sfx('award');burst(90);}
+  renderBadges();renderHero();
+}
+function finishActivity(a,fails){
+  const st=stars3(fails);
+  const prev=S.stars[a.id]||0;
+  if(st>prev)S.stars[a.id]=st;
+  save();renderAll();
+  if(Object.keys(S.stars).length&&!ACTS.some(x=>!actDone(x)))sfx('perfect');else sfx('done');
+  burst(st===3?200:120);
+}
+function toast(html,icon){
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML=(icon?icon+' ':'')+html;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),350);},2600);
+}
+function openModal(html){$('#sheet').innerHTML=html;$('#modal').classList.add('on');$('#sheet').scrollTop=0;}
+function closeModal(){$('#modal').classList.remove('on');}
+function awardHTML(icon,title,sub,btn){
+  return '<div class="award"><div class="aw-ic">'+icon+'</div><h2>'+title+'</h2><p>'+sub+'</p>'
+       +'<button class="btn" data-act="close-modal">'+btn+'</button></div>';
+}
+
+/* ================= RENDER PRINCIPAL ================= */
+function renderHeader(){
+  const li=levelIdx(S.xp),L=LEVELS[li],next=LEVELS[li+1];
+  $('#lvlBadge').textContent=L.icon+' '+L.name;
+  $('#xpText').textContent=S.xp+' XP';
+  const span=next?next.xp-L.xp:1;
+  $('#xpFill').style.width=next?Math.min(100,(S.xp-L.xp)/span*100)+'%':'100%';
+  $('#xpNext').textContent=next?'Nivel '+(li+2)+' en '+(next.xp-S.xp)+' XP':'Nivel máximo alcanzado 👑';
+  $('#btnSound').textContent=S.sound?'🔊':'🔇';
+}
+function renderHero(){
+  const p=pct();
+  $('#ring').style.setProperty('--p',p);
+  $('#ringPct').textContent=p+'%';
+  $('#statChips').innerHTML='<span class="mchip">🎯 Retos '+doneCount()+'/'+ACTS.length+'</span>'
+    +'<span class="mchip">🧩 Tareas '+(adSolved()+sopFound()+dragPlaced()+diagFilled()+cruDone())+'/'+TOTAL_UNITS+'</span>'
+    +'<span class="mchip">🎖️ Medallas '+Object.keys(S.badges).length+'/'+BADGES.length+'</span>';
+  const nx=ACTS.find(a=>!actDone(a));
+  $('#nextGoal').innerHTML=nx
+    ?'<b>Siguiente objetivo:</b> '+esc(nx.tag)+' — '+esc(nx.title)+' ('+actProg(nx)+'/'+actTotal(nx)+')'
+    :'¡Misión cumplida! Reclama tu diploma 🎓';
+  $('#btnDiploma').hidden=p<100;
+}
+function renderActs(){
+  $('#actividades').innerHTML='<h2 class="sec-t">🎯 Retos para superar</h2><div class="acts">'+ACTS.map(a=>{
+    const done=actDone(a),pr=actProg(a),tot=actTotal(a),st=S.stars[a.id];
+    const state=done?'done':'open';
+    const meta='<span class="mchip">'+pr+'/'+tot+'</span>'
+      +(done?'<span class="mchip ok">'+starsHtml(st||1)+'</span>':'')
+      +'<span class="axp">⚡ hasta '+a.xpMax+' XP</span>';
+    const btn=done?'<button class="btn ghost" data-act="open-act" data-act-id="'+a.id+'">Repasar ▶</button>'
+                  :'<button class="btn" data-act="open-act" data-act-id="'+a.id+'">'+(pr>0?'Continuar':'Comenzar')+' ▶</button>';
+    return '<div class="act '+state+'"><div class="aicon">'+a.icon+'</div><div>'
+      +'<div class="arow"><span class="atag">'+esc(a.tag)+'</span><h3>'+a.icon+' '+esc(a.title)+'</h3></div>'
+      +'<p class="adesc">'+esc(a.desc)+'</p><div class="ameta">'+meta+'</div><div style="margin-top:10px">'+btn+'</div></div></div>';
+  }).join('')+'</div>';
+}
+function renderBadges(){
+  $('#medallero').innerHTML='<h2 class="sec-t">🎖️ Medallero</h2><div class="bgrid">'+BADGES.map(b=>{
+    const got=!!S.badges[b.id];
+    return '<div class="bcard'+(got?' got':'')+'"><div class="bic">'+(got?b.icon:'🔒')+'</div><b>'+esc(b.name)+'</b><p>'+esc(b.desc)+'</p></div>';
+  }).join('')+'</div>';
+}
+function renderAll(){renderHeader();renderHero();renderActs();renderBadges();}
+
+/* ================= RETO 1: ADIVINANZAS ================= */
+function viewRiddles(){
+  const cards=RIDDLES.map((r,i)=>{
+    const st=S.ad.st[r.id]||{};
+    const label=st.st==='solved'?'✅ Resuelta':st.st==='revealed'?'👁 Respuesta vista':'🔍 Pendiente';
+    return '<div class="rcard'+(st.st==='solved'?' solved':'')+'" data-act="riddle" data-rid="'+r.id+'">'
+      +'<div class="rn">'+(i+1)+'</div><div><b>'+label+(st.st==='solved'&&st.hints===0?' · sin pistas ⭐':'')+'</b>'
+      +'<small>'+(st.st?esc(r.ans[0]):'¿Qué soy?')+'</small></div>'
+      +'<span style="margin-left:auto">'+(st.st==='solved'?starsHtml(stars3((st.hints||0)>0?(st.hints||0)-1:0)):'›')+'</span></div>';
+  }).join('');
+  const solved=adSolved();
+  openModal(
+    '<div class="zhead"><span class="zic">🕵️</span><div><p class="kicker">Reto 1 · +180 XP máx.</p><h2>Adivinanzas: ¿Qué soy?</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<p class="zintro">Lee la adivinanza y escribe la respuesta. Cada pista que pidas reduce la XP (30 → 20 → 10). Si te rindes ves la respuesta pero sin XP.</p>'
+    +'<div class="zprog"><div class="bar slim"><i style="width:'+(solved/RIDDLES.length*100)+'%"></i></div><span>'+solved+'/'+RIDDLES.length+' adivinanzas</span></div>'
+    +'<div class="rlist">'+cards+'</div>'
+    +'<div class="mfoot"><button class="btn ghost" data-act="close-modal">← Volver</button></div>');
+}
+function viewRiddle(rid){
+  const i=RIDDLES.findIndex(r=>r.id===rid),r=RIDDLES[i],st=S.ad.st[rid]||{st:'open',hints:0};
+  const hints=[];
+  for(let k=0;k<st.hints;k++)hints.push('<div class="hintline">💡 Pista '+(k+1)+': '+esc(r.hints[k])+'</div>');
+  const done=st.st!=='open';
+  openModal(
+    '<div class="zhead"><span class="zic">🕵️</span><div><p class="kicker">Adivinanza '+(i+1)+' de '+RIDDLES.length+'</p><h2>¿Qué soy?</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<div class="riddle-card"><b class="qm">“</b>'+esc(r.text)+'<b class="qm">”</b></div>'
+    +(hints.length?'<div class="hintbox">'+hints.join('')+'</div>':'')
+    +'<div id="rfbk"></div>'
+    +(done
+      ?'<div class="fbk good"><b>'+(st.st==='solved'?'✅ Resuelta: '+esc(r.ans[0]):'👁 Respuesta: '+esc(r.ans[0]))+'</b><p>'+esc(r.why)+'</p>'
+        +'<button class="btn ghost" data-act="riddles">← Otra adivinanza</button></div>'
+      :'<div class="ansrow"><input id="ansInp" maxlength="40" placeholder="Escribe tu respuesta…" autocomplete="off">'
+        +'<button class="btn" data-act="r-answer" data-rid="'+rid+'">Comprobar</button></div>'
+        +'<div class="ansrow"><button class="btn ghost" data-act="r-hint" data-rid="'+rid+'"'+(st.hints>=r.hints.length?' disabled':'')+'>💡 Pista '+(st.hints+1)+(st.hints===0?' (30→20 XP)':st.hints===1?' (20→10 XP)':'')+'</button>'
+        +'<button class="btn warn" data-act="r-giveup" data-rid="'+rid+'">🏳️ Rendirse (0 XP)</button></div>')
+    +'<div class="mfoot"><button class="btn ghost" data-act="riddles">← Lista de adivinanzas</button></div>');
+}
+function rAnswer(rid){
+  const inp=$('#ansInp'),r=RIDDLES.find(x=>x.id===rid);
+  if(!inp||!inp.value.trim()){toast('✍️ Escribe tu respuesta primero');return;}
+  const st=S.ad.st[rid]||{st:'open',hints:0};
+  if(r.ans.some(a=>norm(a)===norm(inp.value))){
+    st.st='solved';S.ad.st[rid]=st;save();
+    const xp=XP_RIDDLE[Math.min(st.hints,2)];
+    sfx('ok');
+    $('#rfbk').innerHTML='<div class="fbk good"><b>🎉 ¡Correcto! La respuesta era '+esc(r.ans[0])+'</b><p>'+esc(r.why)+'</p>'
+      +'<div class="endbtns"><button class="btn" data-act="r-next" data-rid="'+rid+'">Siguiente adivinanza ›</button>'
+      +'<button class="btn ghost" data-act="riddles">Lista</button></div></div>';
+    addXP(xp,'Adivinanza resuelta');
+    const ni=RIDDLES.findIndex(x=>x.id===rid)+1;
+    if(ni<RIDDLES.length){/* siguiente disponible */}
+  }else{
+    S.ad.fails++;save();sfx('bad');
+    inp.classList.add('shake');setTimeout(()=>inp.classList.remove('shake'),450);
+    toast('❌ No es correcto… piensa en las pistas');
+  }
+  renderActs();renderHero();
+}
+function rNext(rid){
+  const i=RIDDLES.findIndex(x=>x.id===rid);
+  for(let k=1;k<=RIDDLES.length;k++){const n=RIDDLES[(i+k)%RIDDLES.length];if(!S.ad.st[n.id]||S.ad.st[n.id].st==='open'){viewRiddle(n.id);return;}}
+  if(adSolved()===RIDDLES.length){const a=ACTS[0];finishActivity(a,S.ad.fails);endScreen(a,adSolved(),RIDDLES.length,S.ad.fails,XP_RIDDLE[0]*RIDDLES.length);}
+  else viewRiddles();
+}
+function rHint(rid){
+  const st=S.ad.st[rid]||{st:'open',hints:0};
+  const r=RIDDLES.find(x=>x.id===rid);
+  if(st.hints<r.hints.length){st.hints++;S.ad.st[rid]=st;save();sfx('flip');viewRiddle(rid);}
+}
+function rGiveUp(rid){
+  const st=S.ad.st[rid]||{st:'open',hints:0};
+  if(st.st==='open'){st.st='revealed';S.ad.st[rid]=st;save();sfx('bad');viewRiddle(rid);renderActs();renderHero();checkBadges();}
+}
+function riddlesEnd(){
+  if(adSolved()===RIDDLES.length){const a=ACTS[0];finishActivity(a,S.ad.fails);endScreen(a,adSolved(),RIDDLES.length,S.ad.fails,0);}
+}
+function endScreen(a,got,tot,fails,xpExtra){
+  const st=S.stars[a.id]||1;
+  openModal('<div class="endbox"><div class="aw-ic">'+(fails===0?'🏆':'🎉')+'</div>'
+    +'<h2>¡Reto completado!</h2><div class="endstars">'+starsHtml(st)+'</div>'
+    +'<p class="zintro">'+esc(a.tag)+' · '+esc(a.title)+'</p>'
+    +'<div class="endgrid">'
+    +'<div class="endcard"><b>'+got+'/'+tot+'</b><span>completado</span></div>'
+    +'<div class="endcard"><b>'+fails+'</b><span>fallos</span></div>'
+    +'<div class="endcard"><b>'+S.xp+'</b><span>XP total</span></div>'
+    +'</div>'
+    +(pct()>=100?'<p class="hint okmsg">👑 ¡Tablero completado al 100%!</p>':'')
+    +'<div class="endbtns"><button class="btn ghost" data-act="close-modal">🗺️ Seguir explorando</button>'
+    +(pct()>=100?'<button class="btn" data-act="cert">🎓 Ver diploma</button>':'')+'</div></div>');
+  if(pct()>=100&&!S.certShown){S.certShown=1;save();setTimeout(()=>{openModal(certHTML());sfx('award');burst(240);},1900);}
+}
+
+/* ================= RETO 2: SOPA DE LETRAS ================= */
+let SPW=null;
+function viewSopa(){
+  const wchips=SOPA.words.map((w,i)=>{
+    const f=S.sop.found.indexOf(w)>=0;
+    return '<span class="wchip'+(f?' found':'')+'">'+(f?'✓ ':'')+w+'</span>';
+  }).join('');
+  const cells=SOPA.grid.map((row,r)=>row.map((ch,c)=>{
+    const idx=S.sop.found.findIndex(w=>{const l=SOPA.locWord(w);if(!l)return -1;
+      for(let k=0;k<w.length;k++){if(l[0]+l[2]*k===r&&l[1]+l[3]*k===c)return k;}return -1;});
+    return '<div class="sc'+(idx>=0?' f'+(idx%6):'')+'" data-r="'+r+'" data-c="'+c+'">'+ch+'</div>';
+  }).join('')).join('');
+  openModal(
+    '<div class="zhead"><span class="zic">🔤</span><div><p class="kicker">Reto 2 · +120 XP</p><h2>Sopa de letras</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<p class="zintro">Arrastra el dedo o el mouse sobre las letras (horizontal, vertical o diagonal, en ambos sentidos). Cada término encontrado vale <b>+15 XP</b>.</p>'
+    +'<div class="sopawords">'+wchips+'</div>'
+    +'<div class="sgrid" id="sgrid">'+cells+'</div>'
+    +'<div id="sfbk"></div>'
+    +'<div class="mfoot"><button class="btn ghost" data-act="close-modal">← Volver</button></div>');
+  SPW={start:null,path:[],draw:false};
+  const g=$('#sgrid');
+  g.addEventListener('pointerdown',spDown);
+  document.addEventListener('pointermove',spMove);
+  document.addEventListener('pointerup',spUp);
+}
+SOPA.locWord=function(w){
+  // localiza la palabra en la grilla (todas direcciones) — solo primera ocurrencia basta
+  const dirs=[[0,1],[1,0],[1,1],[1,-1],[0,-1],[-1,0],[-1,-1],[-1,1]];
+  for(let r=0;r<12;r++)for(let c=0;c<12;c++)for(const[dr,dc]of dirs){
+    let ok=true;
+    for(let k=0;k<w.length;k++){const rr=r+dr*k,cc=c+dc*k;
+      if(rr<0||cc<0||rr>=12||cc>=12||SOPA.grid[rr][cc]!==w[k]){ok=false;break;}}
+    if(ok)return[r,c,dr,dc];
+  }
+  return null;
+};
+function spCellFromEvent(e){
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  const c=el&&el.closest?el.closest('.sc'):null;
+  return c?{r:+c.dataset.r,c:+c.dataset.c,el:c}:null;
+}
+function spDown(e){
+  const p=spCellFromEvent(e);
+  if(!p)return;
+  e.preventDefault();
+  SPW.start=p;SPW.path=[p];SPW.draw=true;
+  p.el.classList.add('sel');
+}
+function spMove(e){
+  if(!SPW||!SPW.draw||!SPW.start)return;
+  const p=spCellFromEvent(e);
+  if(!p)return;
+  const dr=p.r-SPW.start.r,dc=p.c-SPW.start.c;
+  const aligned=(dr===0&&dc!==0)||(dc===0&&dr!==0)||(Math.abs(dr)===Math.abs(dc)&&dr!==0);
+  document.querySelectorAll('.sc.sel').forEach(x=>x.classList.remove('sel'));
+  SPW.path=[SPW.start];
+  SPW.start.el.classList.add('sel');
+  if(aligned){
+    const stepR=Math.sign(dr),stepC=Math.sign(dc),n=Math.max(Math.abs(dr),Math.abs(dc));
+    for(let k=1;k<=n;k++){
+      const rr=SPW.start.r+stepR*k,cc=SPW.start.c+stepC*k;
+      const el=document.querySelector('.sc[data-r="'+rr+'"][data-c="'+cc+'"]');
+      if(el){el.classList.add('sel');SPW.path.push({r:rr,c:cc,el});}
+    }
+  }
+}
+function spUp(){
+  if(!SPW||!SPW.draw)return;
+  SPW.draw=false;
+  const str=SPW.path.map(p=>SOPA.grid[p.r][p.c]).join('');
+  const rev=str.split('').reverse().join('');
+  const hit=SOPA.words.find(w=>!S.sop.found.includes(w)&&(w===str||w===rev));
+  document.querySelectorAll('.sc.sel').forEach(x=>x.classList.remove('sel'));
+  if(hit){
+    S.sop.found.push(hit);save();sfx('ok');
+    const idx=(S.sop.found.length-1)%6;
+    SPW.path.forEach(p=>{const el=document.querySelector('.sc[data-r="'+p.r+'"][data-c="'+p.c+'"]');if(el){el.classList.remove('f0','f1','f2','f3','f4','f5');el.classList.add('f'+idx);}});
+    addXP(XP_WORD,'Término: '+hit);
+    const chip=[...document.querySelectorAll('.wchip')].find(x=>x.textContent.includes(hit));
+    if(chip)chip.outerHTML='<span class="wchip found">✓ '+hit+'</span>';
+    if(S.sop.found.length===SOPA.words.length){finishActivity(ACTS[1],S.sop.fails);endScreen(ACTS[1],S.sop.found.length,SOPA.words.length,S.sop.fails,0);}
+  }else if(SPW.path.length>1){
+    S.sop.fails++;save();sfx('bad');
+    toast('❌ Esa secuencia no es un término de la lista');
+  }
+  SPW.path=[];
+}
+
+/* ================= MOTOR DE ARRASTRE (Reto 3 y 4) ================= */
+let DRG=null,DRMODE=null;
+function dragStart(e,el){
+  if(el.classList.contains('locked')||DRG)return;
+  e.preventDefault();
+  const r=el.getBoundingClientRect();
+  const ghost=el.cloneNode(true);
+  ghost.classList.add('ghost');
+  ghost.style.width=r.width+'px';ghost.style.height=r.height+'px';
+  ghost.style.left=r.left+'px';ghost.style.top=r.top+'px';
+  document.body.appendChild(ghost);
+  DRG={el,ghost,dx:e.clientX-r.left,dy:e.clientY-r.top,sx:e.clientX,sy:e.clientY,moved:false};
+  el.classList.add('dragging');
+  document.addEventListener('pointermove',dragMove,{passive:false});
+  document.addEventListener('pointerup',dragEnd);
+}
+function dragMove(e){
+  if(!DRG)return;
+  e.preventDefault();
+  if(Math.abs(e.clientX-DRG.sx)>6||Math.abs(e.clientY-DRG.sy)>6)DRG.moved=true;
+  if(DRG.moved){
+    DRG.ghost.style.left=(e.clientX-DRG.dx)+'px';
+    DRG.ghost.style.top=(e.clientY-DRG.dy)+'px';
+    document.querySelectorAll('.tray.over,.layer.over').forEach(x=>x.classList.remove('over'));
+    const t=dropTargetAt(e.clientX,e.clientY);
+    if(t)t.classList.add('over');
+  }
+}
+function dropTargetAt(x,y){
+  const el=document.elementFromPoint(x,y);
+  const t=el&&el.closest?el.closest('[data-tray],[data-slot]'):null;
+  return t&&!t.querySelector('.locked')?t:null;
+}
+function dragEnd(e){
+  if(!DRG)return;
+  const el=DRG.el,moved=DRG.moved;
+  document.removeEventListener('pointermove',dragMove);
+  document.removeEventListener('pointerup',dragEnd);
+  DRG.ghost.remove();
+  el.classList.remove('dragging');
+  document.querySelectorAll('.tray.over,.layer.over').forEach(x=>x.classList.remove('over'));
+  if(moved){
+    const t=dropTargetAt(e.clientX,e.clientY);
+    if(t)attemptDrop(el,t);
+    else{toast('Suelta la tarjeta dentro de una bandeja','👆');}
+  }else{
+    el.classList.toggle('sel');
+    sfx('click');
+  }
+  DRG=null;
+}
+function attemptDrop(el,target){
+  const isTray=target.dataset.tray!==undefined;
+  const itemId=el.dataset.id,exp=el.dataset.exp;
+  const targetId=isTray?target.dataset.tray:target.dataset.slot;
+  if(targetId===exp){
+    target.appendChild(el);
+    el.classList.remove('sel','dragging');
+    el.classList.add('locked');
+    el.setAttribute('draggable','false');
+    sfx('ok');
+    if(DRMODE==='drag'){
+      if(!S.drag.pl[itemId]){S.drag.pl[itemId]=targetId;save();addXP(XP_CARD,'Clasificado: '+target.querySelector('h4').textContent);}
+      toast('✅ ¡Correcto! '+esc(el.textContent.trim().slice(0,40))+' → '+target.querySelector('h4').textContent);
+      if(dragPlaced()===DROPCARDS.length){finishActivity(ACTS[2],S.drag.fails);endScreen(ACTS[2],dragPlaced(),DROPCARDS.length,S.drag.fails,0);}
+    }else{
+      if(!S.diag.fl[itemId]){S.diag.fl[itemId]=1;save();addXP(XP_LABEL,'Etiqueta: '+DIAGRAM_SLOTS.find(s=>s.id===itemId).label);}
+      toast('✅ ¡Capa correcta!');
+      if(diagFilled()===DIAGRAM_SLOTS.length){finishActivity(ACTS[3],S.diag.fails);setTimeout(()=>endScreen(ACTS[3],diagFilled(),DIAGRAM_SLOTS.length,S.diag.fails,0),900);}
+    }
+  }else{
+    if(DRMODE==='drag')S.drag.fails++;else S.diag.fails++;
+    save();sfx('bad');
+    target.classList.add('bad','shake');
+    setTimeout(()=>target.classList.remove('bad','shake'),450);
+    toast('❌ No pertenece ahí. Lee bien la pista.');
+  }
+  renderHero();renderActs();
+}
+
+/* ================= RETO 3: CLASIFICAR ================= */
+function viewDrag(){
+  DRMODE='drag';
+  const shuffled=[...DROPCARDS].sort((a,b)=>a.id.localeCompare(b.id)).reverse();
+  const pool=shuffled.map(c=>{
+    const placed=S.drag.pl[c.id];
+    return placed?'':'<div class="chipd" data-act="chip" data-id="'+c.id+'" data-exp="'+c.tray+'">'+esc(c.text)+'</div>';
+  }).join('')||'<p class="hint okmsg">✅ Todas las tarjetas clasificadas.</p>';
+  const trays=TRAYS.map(t=>{
+    const inside=DROPCARDS.filter(c=>S.drag.pl[c.id]===t.id).map(c=>'<div class="chipd locked">'+esc(c.text)+'</div>').join('');
+    return '<div class="tray" data-tray="'+t.id+'"><h4>'+t.icon+' '+t.name+'</h4><small>'+t.sub+'</small>'+inside+'</div>';
+  }).join('');
+  openModal(
+    '<div class="zhead"><span class="zic">🗂️</span><div><p class="kicker">Reto 3 · +90 XP</p><h2>Clasifica cada característica</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<p class="zintro"><b>Arrastra</b> cada tarjeta a la bandeja del SO de empresas grandes que le corresponde (también puedes tocar la tarjeta y luego la bandeja). Cada acierto vale <b>+10 XP</b>.</p>'
+    +'<div class="pool" id="pool">'+pool+'</div><div class="trays">'+trays+'</div>'
+    +'<div class="zprog"><div class="bar slim"><i style="width:'+(dragPlaced()/DROPCARDS.length*100)+'%"></i></div><span>'+dragPlaced()+'/'+DROPCARDS.length+' clasificadas</span></div>'
+    +'<div class="mfoot"><button class="btn ghost" data-act="close-modal">← Volver</button></div>');
+}
+
+/* ================= RETO 4: DIAGRAMA ================= */
+function viewDiag(){
+  DRMODE='diag';
+  const chips=DIAGRAM_CHIPS.filter(c=>!Object.values(S.diag.fl).some((v,i)=>false)&&!DIAGRAM_SLOTS.some(s=>s.id===labelId(c)&&S.diag.fl[s.id]))
+    .map(c=>'<div class="chipd" data-act="chip" data-id="'+labelId(c)+'" data-exp="'+labelId(c)+'">'+esc(prettyLabel(c))+'</div>').join('')
+    ||'<p class="hint okmsg">✅ Diagrama completo.</p>';
+  const layers=DIAGRAM_SLOTS.filter(s=>s.type==='layer').map(s=>{
+    const f=S.diag.fl[s.id];
+    return '<div class="layer'+(s.id==='s_hw'?' l0':'')+(f?' filled':'')+'" data-slot="'+s.id+'">'
+      +(f?'<span class="lnum">✓</span>'+prettyLabel(s.accept):'<span class="lnum">'+(s.id==='s_hw'?'1 · base':s.id==='s_so'?'2':s.id==='s_ap'?'3':'4 · cima')+'</span>'+s.tip)
+      +'</div>';
+  }).join('');
+  const sides=DIAGRAM_SLOTS.filter(s=>s.type==='side').map(s=>{
+    const f=S.diag.fl[s.id];
+    return '<div class="layer'+(f?' filled':'')+'" data-slot="'+s.id+'">'+(f?'✓ '+prettyLabel(s.accept):'<span class="lnum">↔</span>'+s.tip)+'</div>';
+  }).join('');
+  openModal(
+    '<div class="zhead"><span class="zic">🏗️</span><div><p class="kicker">Reto 4 · +60 XP</p><h2>Etiqueta el diagrama</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<p class="zintro">Según el material, el SO es la plataforma sobre la que funcionan las aplicaciones, y el usuario interactúa por comandos o por interfaz gráfica. <b>Arrastra cada etiqueta</b> a su lugar. Las capas van de la base (1) a la cima (4). Cada acierto vale <b>+10 XP</b>.</p>'
+    +'<div class="pool" id="pool">'+chips+'</div>'
+    +'<div class="diagwrap"><div class="stack">'+layers+'</div>'
+    +'<p class="hint" style="text-align:center">Partes del sistema operativo que aceptan los comandos del usuario ↓</p>'
+    +'<div class="sides">'+sides+'</div></div>'
+    +'<div class="zprog"><div class="bar slim"><i style="width:'+(diagFilled()/DIAGRAM_SLOTS.length*100)+'%"></i></div><span>'+diagFilled()+'/'+DIAGRAM_SLOTS.length+' etiquetas</span></div>'
+    +'<div class="mfoot"><button class="btn ghost" data-act="close-modal">← Volver</button></div>');
+}
+function labelId(normLabel){return DIAGRAM_SLOTS.find(s=>s.accept===normLabel).id;}
+function prettyLabel(normLabel){
+  return normLabel==='INTERPRETE DE COMANDOS'?'Intérprete de comandos'
+    :normLabel==='INTERFAZ GRAFICA'?'Interfaz gráfica'
+    :normLabel.charAt(0)+normLabel.slice(1).toLowerCase();
+}
+
+/* ================= RETO 5: CRUCIGRAMA ================= */
+let CW=null;
+function viewCru(){
+  const cellsAt={};
+  CRX.layout.forEach((L,wi)=>{
+    for(let k=0;k<L.w.length;k++){
+      const r=L.r+(L.d==='v'?k:0),c=L.c+(L.d==='h'?k:0),key=r+','+c;
+      (cellsAt[key]=cellsAt[key]||[]).push(wi);
+    }
+  });
+  CW={cellsAt,active:null};
+  let html='';
+  for(let r=0;r<CRX.rows;r++)for(let c=0;c<CRX.cols;c++){
+    const key=r+','+c;
+    if(cellsAt[key]){
+      const n=CRX.num[key];
+      const val=S.cru.cells[key]||'';
+      const locked=cellsAt[key].every(wi=>S.cru.done.includes(CRX.layout[wi].w));
+      html+='<div class="cwc" data-r="'+r+'" data-c="'+c+'">'
+        +(n?'<span class="cwnum">'+n+'</span>':'')
+        +'<input maxlength="1" data-key="'+key+'" value="'+esc(val)+'"'+(locked?' class="ok" readonly':'')+'>'
+        +'</div>';
+    }else html+='<div class="cwc"><div class="blk"></div></div>';
+  }
+  const clueList=CLUES;
+  const hClues=CRX.layout.filter(L=>L.d==='h').map(L=>{const done=S.cru.done.includes(L.w);const k=clueList[L.w];
+    return '<li data-w="'+L.w+'"'+(done?' class="done"':'')+'><b>'+k.n+'H.</b><span>'+esc(k.clue)+' ('+L.w.length+')</span></li>';}).join('');
+  const vClues=CRX.layout.filter(L=>L.d==='v').map(L=>{const done=S.cru.done.includes(L.w);const k=clueList[L.w];
+    return '<li data-w="'+L.w+'"'+(done?' class="done"':'')+'><b>'+k.n+'V.</b><span>'+esc(k.clue)+' ('+L.w.length+')</span></li>';}).join('');
+  openModal(
+    '<div class="zhead"><span class="zic">🔠</span><div><p class="kicker">Reto 5 · +160 XP</p><h2>Crucigrama del SO</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<p class="zintro">Toca una pista para ir a la palabra, escribe las letras y pulsa <b>Comprobar</b>. Cada palabra correcta vale <b>+20 XP</b>. También puedes escribir directamente en la cuadrícula.</p>'
+    +'<div class="cwgrid" id="cwgrid">'+html+'</div>'
+    +'<div class="clues"><div><h4>Horizontales ➡️</h4><ol>'+hClues+'</ol></div><div><h4>Verticales ⬇️</h4><ol>'+vClues+'</ol></div></div>'
+    +'<div class="mfoot"><button class="btn ghost" data-act="close-modal">← Volver</button>'
+    +'<button class="btn" data-act="cru-check">✅ Comprobar</button></div>');
+  const g=$('#cwgrid');
+  g.addEventListener('input',cwInput);
+  g.addEventListener('focusin',cwFocus);
+  document.querySelectorAll('.clues li').forEach(li=>li.addEventListener('click',()=>{cwSelect(li.dataset.w);}));
+}
+function cwWordCells(wi){
+  const L=CRX.layout[wi],out=[];
+  for(let k=0;k<L.w.length;k++)out.push((L.r+(L.d==='v'?k:0))+','+(L.c+(L.d==='h'?k:0)));
+  return out;
+}
+function cwSelect(w){
+  const wi=CRX.layout.findIndex(L=>L.w===w);
+  CW.active=wi;
+  document.querySelectorAll('#cwgrid input').forEach(i=>i.classList.remove('hl'));
+  cwWordCells(wi).forEach(k=>{const i=document.querySelector('#cwgrid input[data-key="'+k+'"]');if(i&&!i.readOnly)i.classList.add('hl');});
+  document.querySelectorAll('.clues li').forEach(li=>li.classList.toggle('active',li.dataset.w===w));
+  const first=cwWordCells(wi).map(k=>document.querySelector('#cwgrid input[data-key="'+k+'"]')).find(i=>i&&!i.value&&!i.readOnly);
+  if(first)first.focus();
+}
+function cwFocus(e){
+  const key=e.target.dataset.key;
+  if(!key||!CW)return;
+  const words=(CW.cellsAt[key]||[]).filter(wi=>!S.cru.done.includes(CRX.layout[wi].w));
+  if(words.length){
+    if(CW.active===null||!cwWordCells(CW.active).includes(key))CW.active=words[0];
+    else if(!words.includes(CW.active))CW.active=words[0];
+    document.querySelectorAll('#cwgrid input').forEach(i=>i.classList.remove('hl'));
+    cwWordCells(CW.active).forEach(k=>{const i=document.querySelector('#cwgrid input[data-key="'+k+'"]');if(i&&!i.readOnly)i.classList.add('hl');});
+    document.querySelectorAll('.clues li').forEach(li=>li.classList.toggle('active',li.dataset.w===CRX.layout[CW.active].w));
+  }
+}
+function cwInput(e){
+  const inp=e.target,key=inp.dataset.key;
+  if(!key)return;
+  const v=inp.value.replace(/[^A-Za-zÑñ]/g,'').toUpperCase().slice(-1);
+  inp.value=v;
+  S.cru.cells[key]=v;save();
+  if(v&&CW&&CW.active!==null){
+    const cells=cwWordCells(CW.active);
+    const pos=cells.indexOf(key);
+    if(pos>=0&&pos<cells.length-1){
+      const nx=document.querySelector('#cwgrid input[data-key="'+cells[pos+1]+'"]');
+      if(nx&&!nx.readOnly){nx.focus();}
+    }
+  }
+}
+function cwCheck(){
+  let gained=0,wrong=0;
+  CRX.layout.forEach((L,wi)=>{
+    if(S.cru.done.includes(L.w))return;
+    const cells=cwWordCells(wi);
+    const word=cells.map(k=>(S.cru.cells[k]||'')).join('');
+    if(word===L.w){
+      S.cru.done.push(L.w);gained+=XP_CRU;
+      cells.forEach(k=>{const i=document.querySelector('#cwgrid input[data-key="'+k+'"]');if(i){i.readOnly=true;i.classList.remove('hl','bad');i.classList.add('ok');}});
+    }else if(word.length===L.w.length){
+      wrong++;
+      cells.forEach(k=>{const i=document.querySelector('#cwgrid input[data-key="'+k+'"]');if(i&&!i.readOnly){i.classList.add('bad');setTimeout(()=>i.classList.remove('bad'),700);}});
+    }
+  });
+  if(gained){S.xp+=gained;save();toast('⚡ +'+gained+' XP · Palabras correctas');renderHeader();renderHero();}
+  if(wrong){S.cru.fails+=wrong;save();sfx('bad');toast('❌ '+wrong+' palabra(s) incorrecta(s): mira las letras en rojo');}
+  else if(gained)sfx('ok');
+  document.querySelectorAll('.clues li').forEach(li=>{if(S.cru.done.includes(li.dataset.w))li.classList.add('done');});
+  renderActs();renderHero();
+  if(cruDone()===CRX.layout.length){finishActivity(ACTS[4],S.cru.fails);endScreen(ACTS[4],cruDone(),CRX.layout.length,S.cru.fails,0);}
+}
+
+/* ================= MATERIAL (resumen del docx) ================= */
+function viewMaterial(){
+  openModal(
+    '<div class="zhead"><span class="zic">📚</span><div><p class="kicker">Material de clase</p><h2>Resumen: Sistemas Operativos</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<div class="matx">'
+    +'<h3>🎯 ¿Para qué se utiliza?</h3>'
+    +'<p>El sistema operativo dirige las acciones que se llevan a cabo dentro del dispositivo y hace ejecutar las órdenes dadas por el usuario. Es el componente de software que permite interactuar con los dispositivos y administrar cualquier función, tal cual como el cerebro humano.</p>'
+    +'<h3>🗂️ Clasificaciones</h3><ul>'
+    +'<li><b>Multiusuario:</b> permite que dos o más usuarios utilicen sus programas al mismo tiempo.</li>'
+    +'<li><b>Multiproceso:</b> soporta abrir un mismo programa en más de una CPU.</li>'
+    +'<li><b>Multitarea:</b> permite que varios programas se ejecuten al mismo tiempo.</li>'
+    +'<li><b>Multitramo:</b> permite que diversas partes de un solo programa funcionen al mismo tiempo.</li>'
+    +'<li><b>Tiempo real:</b> responde a las entradas inmediatamente (DOS y UNIX no funcionan en tiempo real).</li></ul>'
+    +'<h3>⚙️ ¿Cómo funciona?</h3>'
+    +'<p>El SO proporciona una plataforma de software sobre la cual funcionan las aplicaciones. El usuario interactúa mediante <b>comandos</b> (aceptados y ejecutados por el <b>procesador de comandos</b> o intérprete de la línea de comandos) o mediante <b>interfaces gráficas</b>, señalando y pinchando objetos en pantalla. Los SO más usados en PC: DOS, OS/2 y Windows; también Linux.</p>'
+    +'<h3>🖥️ SO para redes de empresas grandes</h3>'
+    +'<div class="twrap"><table class="mtable"><tr><th>SO</th><th>Características clave</th><th>Ejemplos de uso</th></tr>'
+    +'<tr><td><b>UNIX</b></td><td>Estabilidad y seguridad; multiusuario y multitarea; estructura modular; archivos jerárquicos.</td><td>Servidores web, bases de datos, desarrollo de software.</td></tr>'
+    +'<tr><td><b>Solaris</b></td><td>Escalabilidad; zonas y contenedores; sistema de archivos ZFS; DTrace.</td><td>Centros de datos, telecomunicaciones, trading financiero.</td></tr>'
+    +'<tr><td><b>Linux (Red Hat, CentOS, SUSE)</b></td><td>Código abierto; alta personalización; gestión de paquetes; costos reducidos.</td><td>Servidores web, cloud computing (AWS, Google Cloud).</td></tr>'
+    +'<tr><td><b>AIX</b></td><td>Optimizado para IBM Power Systems; escalable; virtualización avanzada.</td><td>Centros de datos, bancos, ERP y CRM.</td></tr>'
+    +'<tr><td><b>Windows Server</b></td><td>Interfaz gráfica familiar; Active Directory; Hyper-V.</td><td>Servidores de aplicaciones, virtualización, ERP.</td></tr></table></div>'
+    +'<h3>📏 Herramientas de medición del desempeño</h3><ul>'
+    +'<li><b>Windows:</b> Monitor de confiabilidad y rendimiento (MMC), contadores de rendimiento, kit WPT.</li>'
+    +'<li><b>Mac OS X Server:</b> Monitor de Actividad (procesos, CPU, memoria, energía, disco y red), app Server y panel Estadísticas.</li></ul>'
+    +'</div>'
+    +'<div class="mfoot"><button class="btn" data-act="close-modal">¡Entendido!</button></div>');
+}
+
+/* ================= DIPLOMA Y BIENVENIDA ================= */
+function certHTML(){
+  const name=(S.name||'').trim()||'Estudiante Explorador/a';
+  const L=LEVELS[levelIdx(S.xp)];
+  const stars=ACTS.reduce((n,a)=>n+(S.stars[a.id]||0),0);
+  const bl=BADGES.filter(b=>S.badges[b.id]).map(b=>b.icon).join(' ');
+  const fecha=new Date().toLocaleDateString('es',{day:'numeric',month:'long',year:'numeric'});
+  return '<div class="zhead no-print"><span class="zic">🎓</span><div><p class="kicker">Recompensa final</p><h2>Diploma desbloqueado</h2></div>'
+    +'<button class="xbtn" data-act="close-modal" aria-label="Cerrar">✕</button></div>'
+    +'<div class="cert"><div class="cert-in">'
+    +'<p class="ck">💻 MISIÓN SISTEMAS OPERATIVOS</p>'
+    +'<h2 class="ct">Diploma de Maestro de los SO</h2>'
+    +'<p class="cd">Se otorga a</p>'
+    +'<p class="cn">'+esc(name)+'</p>'
+    +'<p class="cb">por superar los <b>5 retos</b> del tablero (adivinanzas, sopa de letras, clasificación, diagrama y crucigrama) sobre el tema <b>“Sistemas Operativos”</b>.</p>'
+    +'<p class="cstats">'+L.icon+' '+esc(L.name)+' · '+S.xp+' XP · '+stars+'★ · Medallas: '+(bl||'—')+'</p>'
+    +'<p class="cdate">Emitido el '+fecha+'</p>'
+    +'</div></div>'
+    +'<div class="mfoot no-print"><button class="btn ghost" data-act="close-modal">Cerrar</button>'
+    +'<button class="btn" data-act="print-cert">🖨️ Imprimir diploma</button></div>';
+}
+function viewWelcome(){
+  openModal('<div class="award"><div class="aw-ic">💻</div><h2>¡Bienvenido a Misión Sistemas Operativos!</h2>'
+    +'<p>Tu misión: superar los <b>5 retos</b> creados con el material de clase y convertirte en <b>Maestro de los SO</b>.</p>'
+    +'<ul class="wlist">'
+    +'<li>🕵️ <b>Adivinanzas:</b> responde sin pistas para máxima XP (30 → 20 → 10)</li>'
+    +'<li>🔤 <b>Sopa de letras:</b> arrastra sobre las letras, cada término +15 XP</li>'
+    +'<li>🗂️ <b>Clasificar:</b> arrastra tarjetas a la bandeja correcta, +10 XP</li>'
+    +'<li>🏗️ <b>Diagrama:</b> coloca las 6 etiquetas, +10 XP cada una</li>'
+    +'<li>🔠 <b>Crucigrama:</b> cada palabra correcta +20 XP</li>'
+    +'<li>👑 Completa el 100% y gana tu diploma</li></ul>'
+    +'<button class="btn big" data-act="start-mission">🚀 ¡Comenzar la misión!</button></div>');
+}
+
+/* ================= SONIDO Y CONFETI ================= */
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC;}
+function tone(f,d,type,vol,delay){
+  const a=ac();if(!a||!S.sound)return;
+  const t=a.currentTime+(delay||0);
+  const o=a.createOscillator(),g=a.createGain();
+  o.type=type||'sine';o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.linearRampToValueAtTime(vol||.14,t+.015);
+  g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.05);
+}
+function sfx(n){
+  if(n==='click')tone(440,.06,'triangle',.08);
+  else if(n==='ok'){tone(660,.09,'sine',.14);tone(880,.14,'sine',.14,.09);}
+  else if(n==='bad')tone(170,.22,'sawtooth',.12);
+  else if(n==='award'){[523,659,784,1046].forEach((f,i)=>tone(f,.14,'sine',.13,i*.09));}
+  else if(n==='level'){[392,523,659,784,1046].forEach((f,i)=>tone(f,.16,'triangle',.13,i*.08));}
+  else if(n==='perfect'){[659,784,1046,1318].forEach((f,i)=>tone(f,.16,'sine',.14,i*.1));}
+  else if(n==='done'){tone(523,.12,'sine',.14);tone(659,.16,'sine',.14,.12);}
+}
+const cv=$('#confetti'),ctx=cv.getContext('2d');
+let parts=[],raf=null;
+function sizeCanvas(){cv.width=innerWidth;cv.height=innerHeight;}
+sizeCanvas();window.addEventListener('resize',sizeCanvas);
+function burst(n){
+  const cols=['#22d3ee','#e879f9','#a3e635','#fbbf24','#f87171','#ffffff'];
+  for(let i=0;i<n;i++)parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.3,vx:(Math.random()-.5)*2.2,vy:2+Math.random()*3.2,s:5+Math.random()*7,c:cols[Math.floor(Math.random()*cols.length)],r:Math.random()*Math.PI,vr:(Math.random()-.5)*.25});
+  if(!raf)loop();
+}
+function loop(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.y<cv.height+30);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+    ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});
+  raf=parts.length?requestAnimationFrame(loop):null;
+}
+
+/* ================= EVENTOS ================= */
+function openAct(id){const a=ACTS.find(x=>x.id===id);sfx('click');if(a.type==='riddles')viewRiddles();else if(a.type==='sopa')viewSopa();else if(a.type==='drag')viewDrag();else if(a.type==='diag')viewDiag();else viewCru();}
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');
+  if(!el)return;
+  const act=el.dataset.act;
+  if(act==='open-act')openAct(el.dataset.actId);
+  else if(act==='close-modal')closeModal();
+  else if(act==='riddle')viewRiddle(el.dataset.rid);
+  else if(act==='riddles')viewRiddles();
+  else if(act==='r-answer')rAnswer(el.dataset.rid);
+  else if(act==='r-next')rNext(el.dataset.rid);
+  else if(act==='r-hint')rHint(el.dataset.rid);
+  else if(act==='r-giveup')rGiveUp(el.dataset.rid);
+  else if(act==='cru-check')cwCheck();
+  else if(act==='material'){sfx('click');viewMaterial();}
+  else if(act==='cert'){sfx('click');openModal(certHTML());}
+  else if(act==='print-cert')window.print();
+  else if(act==='start-mission'){S.seen=1;save();closeModal();sfx('ok');burst(120);}
+  else if(act==='sound'){S.sound=!S.sound;save();$('#btnSound').textContent=S.sound?'🔊':'🔇';sfx('click');}
+  else if(act==='reset'){if(confirm('¿Seguro que quieres reiniciar toda tu progresión?')){S=defaultS();save();$('#nameInp').value='';renderAll();viewWelcome();}}
+});
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('input',e=>{if(e.target.id==='nameInp'){S.name=e.target.value;save();}});
+
+/* Arrastre por pointerdown (funciona con mouse y con dedo) */
+document.addEventListener('pointerdown',e=>{
+  const el=e.target.closest('[data-act="chip"]');
+  if(el)dragStart(e,el);
+});
+
+/* Tap-select → tap-tray (fallback táctil del arrastre) */
+document.addEventListener('click',e=>{
+  const tray=e.target.closest('[data-tray],[data-slot]');
+  if(!tray||DRG)return;
+  const sel=document.querySelector('.chipd.sel');
+  if(sel&&DRMODE)attemptDrop(sel,tray);
+});
+
+/* ================= INICIO ================= */
+$('#nameInp').value=S.name||'';
+renderAll();
+if(!S.seen)viewWelcome();
+</script>
+</body>
+</html>
